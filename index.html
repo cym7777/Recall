@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#456b53" />
+    <meta name="description" content="Recall：本地优先的个人错题管理与间隔复习系统。" />
+    <title>Recall · 拾起知识，记得更久</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./src/style.css" />
+    <script type="module" src="./src/app.js"></script>
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <a class="brand" href="#dashboard"
+          ><span class="brand-icon">r.</span><span>Recall<small>拾起知识，记得更久</small></span></a
+        >
+        <p class="nav-caption">学习空间</p>
+        <nav aria-label="主导航">
+          <a href="#dashboard" data-page="dashboard"><span>◫</span>学习概览</a
+          ><a href="#library" data-page="library"><span>▤</span>我的错题库</a
+          ><a href="#review" data-page="review"><span>↻</span>今日复习 <b id="nav-due">0</b></a
+          ><a href="#stats" data-page="stats"><span>▥</span>学习统计</a>
+        </nav>
+        <div class="sidebar-bottom">
+          <a class="mobile-settings" href="#settings" aria-label="设置与备份">⚙</a>
+          <div class="local-note">
+            <span class="status-dot"></span> 数据保存在这台设备<small
+              >定期备份，让积累更安心。</small
+            >
+          </div>
+          <nav>
+            <a href="#settings" data-page="settings"><span>⚙</span>设置与备份</a>
+          </nav>
+          <button id="theme" class="theme-button" aria-label="切换深色模式">
+            ◐ <span>切换深色模式</span>
+          </button>
+        </div>
+      </aside>
+      <div class="main-shell">
+        <header class="topbar">
+          <a href="#settings" aria-label="打开设置与备份"
+            ><span id="breadcrumb">学习概览</span> <span aria-hidden="true">⌄</span></a
+          >
+          <div>
+            <span class="today-label" id="header-date"></span
+            ><button class="button primary compact" id="top-add">＋ 新增错题</button>
+          </div>
+        </header>
+        <main id="main" tabindex="-1"><p>正在打开本地数据库…</p></main>
+        <footer>Recall <span>·</span> 每一次回顾，都在靠近掌握。</footer>
+      </div>
+    </div>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <dialog id="dialog"></dialog>
+    <noscript>Recall 需要启用 JavaScript 才能保存和复习错题。</noscript>
+  </body>
+</html>
