@@ -15,8 +15,19 @@
 
 ## 当前状态
 
-目标账号 cym7777 已登录，公开仓库 https://github.com/cym7777/Recall 已创建。已连接 GitHub 认证确认拥有仓库管理与推送权限；源码上传及 Pages 配置进行中。未创建或存储新密钥。
+公开仓库：https://github.com/cym7777/Recall
 
-## 部署后验证（尚未执行）
+免费 GitHub Pages：https://cym7777.github.io/Recall/
 
-在独立浏览器环境访问实际 Pages 地址，验证页面、CSS、JavaScript 与图片资源加载，并实际完成新增错题、揭晓答案及复习提交、统计更新、刷新保存和浏览器重启持久化。只有验证通过后，才将 README 中的计划地址更新为已上线体验地址。
+目标账号认证确认具有仓库管理与推送权限，源码通过已连接的 GitHub 认证上传；没有创建或存储新密钥。Pages 来源为 GitHub Actions，HTTPS 强制开启。
+
+## 实际验证
+
+- GitHub Actions 的 9 项模型测试和 20 项浏览器检查通过。
+- Pages 首次部署成功：[部署记录](https://github.com/cym7777/Recall/actions/runs/39368640317)。
+- 正式 Pages 地址的全部 20 项浏览器检查通过，未捕获页面异常。
+- HTML、SVG 图标、CSS 与全部 ES Modules 的 8 个资源均返回 200，与审查后的本地文件逐字节一致。
+- 线上隔离测试实际执行了新增/编辑/删除、图片保存、复习等级与记录、统计、备份导入导出、跨天及浏览器关闭重开持久化。
+- 重新生成真实线上界面截图，所有题目和记录均为虚构的测试数据。
+
+详细验证范围、测试方法及限制见 [线上验证记录](ONLINE-VERIFICATION.md)。

@@ -4,15 +4,16 @@
 
 用来集中整理大学课程错题：留下题目、解法和自己的理解，然后按透明的规则每天回顾一点。以实际可用和数据可控为目标，网站运行不需要服务器数据库、付费服务或大模型 API Key。
 
-> 本地版本已完成，公开发布已获项目所有者授权。目标仓库为 `cym7777/Recall`；公开仓库已创建：[cym7777/Recall](https://github.com/cym7777/Recall)。源码上传及 Pages 部署进行中。
+> **在线体验：[Recall](https://cym7777.github.io/Recall/)** · **源码：[cym7777/Recall](https://github.com/cym7777/Recall)**
+> 已通过 GitHub Pages 免费部署。学习数据保存在用户当前浏览器中，不上传到仓库，**不会自动跨设备同步**。
 
 **29 项测试及检查通过：9 项模型测试 + 20 项浏览器检查。** 覆盖错题增删改查、图片持久化、五级调度、并发去重、备份恢复、关闭浏览器后重启和响应式页面。详细范围及未验证事项见 [测试报告](docs/TESTING.md)。
 
-计划在线体验地址：`https://cym7777.github.io/Recall/`（部署完成前不可用）。数据保存在用户当前浏览器的 IndexedDB 中，**不会自动跨设备同步**。
+发布后已在正式地址完成全部 20 项浏览器检查，页面无未捕获异常；8 个静态资源均返回 200，并与审查后的源码一致。GitHub Actions 的 9 项模型测试与 20 项浏览器检查也已通过。[线上验证记录](docs/ONLINE-VERIFICATION.md)。
 
 ## 界面预览
 
-以下截图全部来自隔离测试环境，题目与记录均为虚构测试数据，不代表真实用户学习成果。正式首次打开仅初始化科目，不填入任何错题或复习成绩。
+以下截图来自正式 Pages 地址的独立测试浏览器，题目与记录均为虚构测试数据，不代表真实用户学习成果。正式首次打开仅初始化科目，不填入任何错题或复习成绩。
 
 ![学习概览](docs/screenshots/dashboard-desktop.png)
 
@@ -56,7 +57,7 @@ npm start
 python3 -m http.server 4173 --bind 127.0.0.1
 ```
 
-必须在项目根目录启动，不要直接双击 HTML（ES Modules 需要 HTTP）。Node 服务器只监听本机；需要其他设备访问时可用受信任的静态服务器或等待部署。
+必须在项目根目录启动，不要直接双击 HTML（ES Modules 需要 HTTP）。Node 服务器只监听本机；需要其他设备访问时可用受信任的静态服务器。
 
 ### 测试
 
@@ -70,7 +71,7 @@ npm run test:browser
 
 也支持 pnpm，锁文件为 `pnpm-lock.yaml`：`pnpm install --frozen-lockfile`。Playwright 与 Prettier 均仅为开发依赖，运行网站没有第三方依赖和 CDN 请求。
 
-测试自动创建独立临时浏览器环境，不连接真实个人数据库。浏览器测试会重新生成虚构数据截图。可设置 `RECALL_URL` 指向本地测试服务器；`RECALL_BROWSER` 用于指定测试浏览器可执行文件；`RECALL_PLAYWRIGHT_PATH` 是开发环境可选的模块入口路径。
+测试自动创建独立临时浏览器环境，不连接真实个人数据库。浏览器测试会重新生成虚构数据截图。可设置 `RECALL_URL` 指向本地测试服务器；`RECALL_BROWSER` 用于指定测试浏览器可执行文件；`RECALL_PLAYWRIGHT_PATH` 是开发环境可选的模块入口路径；`RECALL_PROXY` 可指定已有的浏览器测试代理。
 
 详见 [测试结果](docs/TESTING.md)。源码格式化：`npm run format`。
 
@@ -132,7 +133,7 @@ scripts/serve.mjs         零依赖本地 HTTP 服务
 1. 在 `cym7777` 账号创建公开仓库 `Recall`，将本项目作为独立仓库推送到 `main`，避免包含备份、个人数据、密钥及其他项目。
 2. 仓库 Settings → Pages → Source 选择 **GitHub Actions**。
 3. Actions 中手动运行 **Deploy Recall to GitHub Pages**。部署工作流仅支持手动触发，不会因为提交代码自动发布。
-4. 成功后以工作流返回的 URL 为准。预期项目站点路径为 `https://cym7777.github.io/Recall/`，此地址目前未验证、尚未部署。
+4. 正式站点为 **[https://cym7777.github.io/Recall/](https://cym7777.github.io/Recall/)**，已实际部署并验证。后续更新通过同一工作流手动部署。
 
 所有资源使用相对路径，支持 `/Recall/` 子路径。GitHub Pages 只托管静态文件，每位访问者的数据独立保存在自己的浏览器中。
 

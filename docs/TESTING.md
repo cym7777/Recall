@@ -62,13 +62,13 @@ npm test
 npm run test:browser
 ```
 
-阶段门槛可通过 `RECALL_PHASE=1`、`2`、`3` 运行阶段子集。未设置则运行全部。GitHub Actions 检查配置已准备，尚未在远程执行；Pages 工作流尚未运行。
+阶段门槛可通过 `RECALL_PHASE=1`、`2`、`3` 运行阶段子集。未设置则运行全部。GitHub Actions 检查与 Pages 工作流已成功执行。2026-10-20 在正式 Pages 地址重新运行全部 20 项浏览器检查，全部通过，未捕获页面异常；8 个静态资源检查通过。详见 [线上验证记录](ONLINE-VERIFICATION.md)。
 
 ## 未验证范围
 
 - 实体 iPad、iPhone、Safari、Firefox；现有手机与 iPad 结论仅为桌面 Chrome 的视口检查。
 - 设备真实磁盘耗尽、浏览器自动回收与浏览器损坏；配额失败检查为事务中主动注入异常。
 - 数万题、大量图片与接近导入文件上限的性能压力。
-- 公开 GitHub 仓库、GitHub Actions 和 Pages 实际线上部署（等待所有者授权）。
+- 全球不同网络区域的访问质量；线上功能验证使用现有代理完成。
 
 IndexedDB 持久化仍需配合定期导出备份，测试不能替代备份。

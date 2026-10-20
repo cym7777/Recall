@@ -10,6 +10,7 @@ const { chromium } = await import(
 );
 const browser = await chromium.launch({
   headless: true,
+  ...(process.env.RECALL_PROXY ? { proxy: { server: process.env.RECALL_PROXY } } : {}),
   ...(process.env.RECALL_BROWSER ? { executablePath: process.env.RECALL_BROWSER } : {}),
 });
 const context = await browser.newContext({
@@ -39,16 +40,14 @@ try {
     await page.locator('[name=answer]').fill('A + AB = A\n使用吸收律');
     await page.locator('[name=reason]').fill('未识别吸收律');
     await page.locator('[name=tags]').fill('逻辑门，化简');
-    await page
-      .locator('#image-input')
-      .setInputFiles({
-        name: 'sample.png',
-        mimeType: 'image/png',
-        buffer: Buffer.from(
-          'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aD1sAAAAASUVORK5CYII=',
-          'base64',
-        ),
-      });
+    await page.locator('#image-input').setInputFiles({
+      name: 'sample.png',
+      mimeType: 'image/png',
+      buffer: Buffer.from(
+        'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aD1sAAAAASUVORK5CYII=',
+        'base64',
+      ),
+    });
     await page.locator('#image-preview img').waitFor();
     await page.locator('#save-question').click();
     await page.locator('.question-card').waitFor();
@@ -122,6 +121,7 @@ try {
       let persistent;
       const launch = {
         headless: true,
+        ...(process.env.RECALL_PROXY ? { proxy: { server: process.env.RECALL_PROXY } } : {}),
         ...(process.env.RECALL_BROWSER ? { executablePath: process.env.RECALL_BROWSER } : {}),
       };
       try {
