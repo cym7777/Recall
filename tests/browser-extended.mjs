@@ -1,4 +1,18 @@
+import { mkdir } from 'node:fs/promises';
+
 export async function run({ page, context, base, check, assert }) {
+  const titles = {
+    dashboard: '让知识，慢慢变牢固。',
+    library: '我的错题库',
+    new: '记录一道错题',
+    review: '今日复习',
+    stats: '学习统计',
+    settings: '设置与备份',
+  };
+  const waitForPage = (route) =>
+    page.getByRole('heading', { name: titles[route], exact: true }).waitFor();
+  const screenshotDir = process.env.RECALL_SCREENSHOT_DIR || 'docs/screenshots';
+  await mkdir(screenshotDir, { recursive: true });
   await check('复习默认隐藏答案，揭晓后记录一次，刷新后持久化', async () => {
     await page.goto(base + '/#review');
     await page.locator('#reveal-answer').waitFor();
@@ -121,7 +135,7 @@ export async function run({ page, context, base, check, assert }) {
       });
     });
     await page.goto(base + '/#dashboard');
-    await page.locator('.metrics').waitFor();
+    await waitForPage('dashboard');
     assert.equal(await page.locator('.metrics strong').nth(0).innerText(), '1题');
     assert.equal(await page.locator('.metrics strong').nth(1).innerText(), '1题');
     const tomorrow = Date.now() + 86400000;
@@ -169,7 +183,9 @@ export async function run({ page, context, base, check, assert }) {
   });
   await check('删除确认与历史级联删除', async () => {
     await page.goto(base + '/#library');
+    await page.locator('.question-card').first().waitFor();
     const old = await page.locator('.question-card').count();
+    assert.equal(old, 2);
     await page.locator('[data-delete]').first().click();
     await page.locator('#cancel-dialog').click();
     assert.equal(await page.locator('.question-card').count(), old);
@@ -287,8 +303,8 @@ export async function run({ page, context, base, check, assert }) {
       ['settings', 'settings-desktop'],
     ]) {
       await page.goto(base + '/#' + route);
-      await page.locator('h1').waitFor();
-      await page.screenshot({ path: `docs/screenshots/${name}.png`, fullPage: true });
+      await waitForPage(route);
+      await page.screenshot({ path: `${screenshotDir}/${name}.png`, fullPage: true });
     }
   });
   await check('桌面、iPad、手机六页面无横向溢出，深浅色可切换', async () => {
@@ -300,7 +316,7 @@ export async function run({ page, context, base, check, assert }) {
       await page.setViewportSize(viewport);
       for (const route of ['dashboard', 'library', 'new', 'review', 'stats', 'settings']) {
         await page.goto(base + '/#' + route);
-        await page.locator('h1').waitFor();
+        await waitForPage(route);
         assert.ok(
           await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1),
           `${viewport.width} ${route} overflow`,
@@ -312,9 +328,9 @@ export async function run({ page, context, base, check, assert }) {
     await page.reload();
     assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark');
     await page.goto(base + '/#dashboard');
-    await page.locator('h1').waitFor();
-    await page.screenshot({ path: 'docs/screenshots/dashboard-mobile-dark.png', fullPage: true });
+    await waitForPage('dashboard');
+    await page.screenshot({ path: `${screenshotDir}/dashboard-mobile-dark.png`, fullPage: true });
     await page.locator('#theme').click();
-    await page.screenshot({ path: 'docs/screenshots/dashboard-mobile.png', fullPage: true });
+    await page.screenshot({ path: `${screenshotDir}/dashboard-mobile.png`, fullPage: true });
   });
 }
